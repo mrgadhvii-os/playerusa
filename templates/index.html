@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern MP4 Player with USA Proxy</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #7209b7;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            color: var(--light-color);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        
+        .subtitle {
+            color: #adb5bd;
+            font-size: 1.1rem;
+        }
+        
+        .url-input-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+        
+        button {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+        
+        .video-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            display: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        video {
+            width: 100%;
+            display: block;
+        }
+        
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .status.success {
+            background: rgba(76, 201, 240, 0.1);
+            border-left: 4px solid var(--success-color);
+            display: block;
+        }
+        
+        .status.error {
+            background: rgba(247, 37, 133, 0.1);
+            border-left: 4px solid var(--warning-color);
+            display: block;
+        }
+        
+        .info-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-box h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .info-box ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+        
+        .info-box li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .info-box li:before {
+            content: "•";
+            color: var(--accent-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .input-group {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        .loader {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .loader-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary-color);
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Modern MP4 Player</h1>
+            <p class="subtitle">Stream videos through a USA proxy server</p>
+        </header>
+        
+        <div class="url-input-container">
+            <div class="input-group">
+                <input type="text" id="videoUrl" placeholder="Enter MP4 URL (e.g., https://example.com/video.mp4)" />
+                <button id="loadVideo">Load Video</button>
+            </div>
+        </div>
+        
+        <div id="statusMessage" class="status"></div>
+        
+        <div class="loader" id="loader">
+            <div class="loader-spinner"></div>
+            <p>Connecting to USA server...</p>
+        </div>
+        
+        <div class="video-container" id="videoContainer">
+            <video id="videoPlayer" controls>
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <div class="info-box">
+            <h3>How It Works</h3>
+            <ul>
+                <li>Enter the URL of an MP4 video that has geographic restrictions</li>
+                <li>Our USA-based Heroku server will proxy your request</li>
+                <li>The video will be streamed through the USA server, bypassing restrictions</li>
+                <li>Your original IP address remains hidden from the content server</li>
+            </ul>
+        </div>
+        
+        <footer>
+            <p>Modern MP4 Player with USA Proxy &copy; 2023</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoUrlInput = document.getElementById('videoUrl');
+            const loadVideoButton = document.getElementById('loadVideo');
+            const videoContainer = document.getElementById('videoContainer');
+            const videoPlayer = document.getElementById('videoPlayer');
+            const statusMessage = document.getElementById('statusMessage');
+            const loader = document.getElementById('loader');
+            
+            // Function to show status message
+            function showStatus(message, isError = false) {
+                statusMessage.textContent = message;
+                statusMessage.className = isError ? 'status error' : 'status success';
+            }
+            
+            // Function to load video
+            function loadVideo() {
+                const url = videoUrlInput.value.trim();
+                
+                if (!url) {
+                    showStatus('Please enter a video URL', true);
+                    return;
+                }
+                
+                // Basic URL validation
+                try {
+                    new URL(url);
+                } catch (e) {
+                    showStatus('Please enter a valid URL', true);
+                    return;
+                }
+                
+                // Show loader
+                loader.style.display = 'block';
+                videoContainer.style.display = 'none';
+                statusMessage.style.display = 'none';
+                
+                // Create proxy URL
+                const proxyUrl = `/proxy?url=${encodeURIComponent(url)}`;
+                
+                // Check if the video can be played
+                fetch(proxyUrl, { method: 'HEAD' })
+                    .then(response => {
+                        if (response.ok) {
+                            // Set video source
+                            videoPlayer.src = proxyUrl;
+                            
+                            // Load video
+                            videoPlayer.load();
+                            
+                            // Show video container
+                            videoContainer.style.display = 'block';
+                            loader.style.display = 'none';
+                            
+                            showStatus('Video loaded successfully through USA proxy');
+                        } else {
+                            throw new Error('Failed to load video');
+                        }
+                    })
+                    .catch(error => {
+                        loader.style.display = 'none';
+                        showStatus('Error: ' + error.message, true);
+                        console.error('Error loading video:', error);
+                    });
+            }
+            
+            // Event listeners
+            loadVideoButton.addEventListener('click', loadVideo);
+            
+            videoUrlInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    loadVideo();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
